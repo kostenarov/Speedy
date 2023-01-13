@@ -9,7 +9,8 @@ role - роля
 Role
 enum
 ADMINISTRATOR, CUSTOMER, DRIVER*/
-    private static int id = 0;
+    private static int counter = 0;
+    private final int id;
     private final String username, password;
     private final Role role;
 
@@ -24,7 +25,25 @@ ADMINISTRATOR, CUSTOMER, DRIVER*/
         {
             throw new RuntimeException( "not valid password");
         }
-        id++;
+        counter++;
+        this.id = counter;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(final int id, final String username, final String password, Role role)
+    {
+        if(username.isEmpty())
+        {
+            throw new RuntimeException( "not valid username");
+        }
+
+        if(password.isEmpty())
+        {
+            throw new RuntimeException( "not valid password");
+        }
+        this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;

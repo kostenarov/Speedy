@@ -13,10 +13,6 @@ public class Order {
     final private int addressId;
     final private int Id;
 
-    public Order() {
-
-    }
-
     enum Status{CREATED, DELIVERING, DELIVERED}
     Status status;
 

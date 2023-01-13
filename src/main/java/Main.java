@@ -11,6 +11,24 @@ import java.util.Scanner;
 //getOrderToDeliver
 //getOrderToDeliver
 public class Main {
+
+    public static void printMenu(DeliverySystem Speedy)
+    {
+        if(Speedy.isLoggedIn()) {
+            System.out.println("1. Logout");
+        }
+        else {
+            System.out.println("1. Login");
+        }
+        System.out.println("2. Register");
+        System.out.println("3. Add address");
+        System.out.println("4. Add order");
+        System.out.println("5. Add package to order");
+        System.out.println("6. Get random order to deliver");
+        System.out.println("7. Get order to deliver");
+        System.out.println("0. Exit");
+
+    }
     public static void Choicer(int choice, DeliverySystem Speedy) throws Exception {
         switch(choice)
         {
@@ -31,7 +49,7 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                 }
-            }//Login
+            }//Login/logout
 
             case 2 -> {
                 Scanner scanner = new Scanner(System.in);
@@ -43,15 +61,15 @@ public class Main {
                 System.out.println("Password: ");
                 String password = scanner.next();
                 Role role = Role.CUSTOMER;
-                System.out.println("Please choose a role:\n1. Administrator\n2. Driver\n3. Customer");
-                decision = scanner.nextInt();
+                if(decision == 1) {
+                    System.out.println("Please choose a role:\n1. Administrator\n2. Driver\n3. Customer");
+                    decision = scanner.nextInt();
 
-                switch(decision)
-                {
-                    case 1 -> role = Role.ADMINISTRATOR;
-                    case 2 -> role = Role.DRIVER;
+                    switch (decision) {
+                        case 1 -> role = Role.ADMINISTRATOR;
+                        case 2 -> role = Role.DRIVER;
+                    }
                 }
-
                 try
                 {
                     {
@@ -259,6 +277,7 @@ public class Main {
 
         while(choice != 0)
         {
+            printMenu(Speedy);
             System.out.print("Please input choice: ");
             choice = scanner.nextInt();
             Choicer(choice, Speedy);
