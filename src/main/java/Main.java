@@ -1,6 +1,7 @@
+import DeliverySystem.DeliverySystem;
+import Order.Order;
 import UserInfo.*;
 import UserInfo.Role;
-import UserInfo.UserDetails;
 import Package.Package;
 
 import java.util.ArrayList;
@@ -194,7 +195,7 @@ public class Main {
                 {
                     System.out.println(e.getMessage());
                 }
-            }//add Order
+            }//add Order.Order
 
             case 5 -> {
                 Scanner scanner = new Scanner(System.in);
@@ -212,7 +213,7 @@ public class Main {
                     System.out.println("Please input the price of the package(1 - 10):");
                     price = scanner.nextInt();
                     try{
-                        Speedy.addPackage(new Package(0, size, true, price), orderId);//TODO fix
+                        Speedy.addPackage(new Package(0, size, true, price), orderId);
                     }
                     catch(RuntimeException e)
                     {
@@ -227,7 +228,7 @@ public class Main {
                     int size = 0, price = 0;
                     size = scanner.nextInt();
                     try{
-                       Speedy.addPackage(new Package(0, size, true, price), orderId);//TODO fix
+                       Speedy.addPackage(new Package(0, size, true, price), orderId);
                     }
                     catch(RuntimeException e)
                     {
@@ -272,8 +273,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         int choice = 1;
         Scanner scanner = new Scanner(System.in);
-        DeliverySystem Speedy = new DeliverySystem(new User("Dabber", "Penis", Role.ADMINISTRATOR),
-                new UserDetails(0, "Dabber", "Dabberov", 1111111134));
+        DeliverySystem Speedy = new DeliverySystem();
 
         while(choice != 0)
         {
@@ -294,7 +294,7 @@ public class Main {
 
 Програмата да изписва информативни съобщения когато настъпи грешка и да не прекратява изпълнението си.
 Тестове:
-Да се напишат unit test-ове за всички методи в DeliverySystem класа и за пакетите.
+Да се напишат unit test-ове за всички методи в DeliverySystem.DeliverySystem класа и за пакетите.
 Други:
 Хвърлените грешки да са смислени и говорещи какво се е случило.
 Спазвайте принципите на ООП.

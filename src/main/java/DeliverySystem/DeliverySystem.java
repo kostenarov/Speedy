@@ -1,8 +1,11 @@
+package DeliverySystem;
+
 import java.util.*;
 import UserInfo.*;
 import Package.Package;
+import Order.*;
 
-/*DeliverySystem
+/*DeliverySystem.DeliverySystem
 Полета
 users - колекция с потребители
 orders - колекция с поръчки
@@ -35,13 +38,9 @@ public class DeliverySystem {
     private ArrayList<Address> addresses = new ArrayList<>();
     private User currentUser;
 
-    public DeliverySystem(User user, UserDetails details)
+    public DeliverySystem()
     {
-        if(user.getRole() != Role.ADMINISTRATOR)
-        {
-            throw new RuntimeException("No Admin in the system");
-        }
-        this.users.add(user);
+        this.users.add(new User("Admin", "Admin123", Role.ADMINISTRATOR));
     }
 
 //registerUser(String username, String password) - регистрира user с подадените полета.
@@ -96,7 +95,7 @@ public class DeliverySystem {
         {
             if(user.getUserName().equals(username))
             {
-                throw new SecurityException("UserInfo.User with this username already exists");
+                throw new SecurityException("User with this username already exists");
             }
         }
 
@@ -129,7 +128,7 @@ public class DeliverySystem {
         }
         if(!loggedIn)
         {
-            throw new SecurityException("UserInfo.User doesn't exist");
+            throw new SecurityException("User doesn't exist");
         }
     }
 
@@ -150,7 +149,7 @@ public class DeliverySystem {
     {
         if(currentUser.getRole() != Role.DRIVER)
         {
-            throw new RuntimeException("UserInfo.User is not a driver");
+            throw new RuntimeException("User is not a driver");
         }
         if(id < 1)
         {
@@ -158,13 +157,10 @@ public class DeliverySystem {
         }
         for(Order order : orders)
         {
-            if((order.getAddressId() == id) && (order.getStatus() == Order.Status.DELIVERING))
+            if((order.getAddressId() == id) && (order.getStatus() == Status.DELIVERING))
             {
-                order.setStatus(Order.Status.DELIVERED);
+                order.setStatus(Status.DELIVERED);
                 return order;
-            }
-            else{
-                throw new RuntimeException("Invalid order for delivery");
             }
         }
         return null;
@@ -180,27 +176,24 @@ public class DeliverySystem {
         int id = random.nextInt(orders.size());
         if(currentUser.getRole() != Role.DRIVER)
         {
-            throw new RuntimeException("UserInfo.User is not a driver");
+            throw new RuntimeException("User is not a driver");
         }
         for(Order order : orders)
         {
-            if((order.getAddressId() == id) && (order.getStatus() == Order.Status.DELIVERING))
+            if((order.getAddressId() == id) && (order.getStatus() == Status.DELIVERING))
             {
-                order.setStatus(Order.Status.DELIVERED);
+                order.setStatus(Status.DELIVERED);
                 return order;
-            }
-            else{
-                throw new RuntimeException("Invalid order for delivery");
             }
         }
         return null;
     }
 
-//addOrder(Order order) - добавя поръчка към системата със статус CREATED.
+//addOrder(Order.Order order) - добавя поръчка към системата със статус CREATED.
 // Ако поръчката не е за текущия потребител(адреса на поръчката не е за текущия потребител) да се хвърля грешка.
 // Ако текущия потребител не е клиент, да се хвърля грешка. Да се валидира коректността на данните в поръчката.
 // (има съществуващ адрес, има поне един пакет).
-    void addOrder(Order order)
+public void addOrder(Order order)
     {
         boolean exists = false;
         if(currentUser.getRole() != Role.CUSTOMER)
@@ -217,20 +210,20 @@ public class DeliverySystem {
                     orders.add(order);
                 }
                 else {
-                    throw new RuntimeException("UserInfo.Address is not for the current user!");
+                    throw new RuntimeException("Address is not for the current user!");
                 }
             }
         }
         if(!exists)
         {
-            throw new RuntimeException("UserInfo.Address doesn't exists");
+            throw new SecurityException("Address doesn't exists");
         }
     }
 
 //addAddress(UserInfo.Address address) - добавя се нов адрес в системата. Само клиенти могат да добавят адреси.
 // Ако текущия потребител и потребителя за когото е адреса се различават, да се хвърля грешка.
 // Ако текущия потребител не е клиент, да се хвърля грешка.
-    void addAddress(Address address)
+public void addAddress(Address address)
     {
         if(currentUser.getRole() != Role.CUSTOMER)
         {
@@ -248,12 +241,12 @@ public class DeliverySystem {
 //addPackage(Package.Package package, int orderId) добавя пакет към посочената поръчка с даденото id.
 // Ако не съществува такава поръчка, да се хвърли грешка. Ако текущия потребител не е клиент, да се хвърля грешка.
 // Ако посочената поръчка не е за текущия потребител (адреса на поръчката не е за текущия потребител), да се хвърли грешка.
-    void addPackage(Package packet, int orderId)
+public void addPackage(Package packet, int orderId)
     {
         boolean orderExists = false, orderAddressExists = false;
         if(currentUser.getRole() != Role.CUSTOMER)
         {
-            throw new RuntimeException("UserInfo.User is not a client");
+            throw new RuntimeException("User is not a client");
         }
         for(Order order : orders)
         {
@@ -277,7 +270,7 @@ public class DeliverySystem {
             }
             if(!orderExists)
             {
-                throw new RuntimeException("Order doesn't exist");
+                throw new RuntimeException("Order.Order doesn't exist");
             }
 
             if(!orderAddressExists)
@@ -287,19 +280,23 @@ public class DeliverySystem {
         }
     }
 
-    boolean isLoggedIn()
+    public boolean isLoggedIn()
     {
         if(currentUser != null)
             return true;
         return false;
     }
 
-    int getTotalOrders()
+    public int getTotalOrders()
     {
         return orders.size();
     }
 
-    ArrayList<Address> getAddresses()
+    User getCurrentUser(){
+        return currentUser;
+    }
+
+    public ArrayList<Address> getAddresses()
     {
         return addresses;
     }

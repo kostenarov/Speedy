@@ -11,7 +11,7 @@ public class Address {
     private static int id = 0;
     private final String country, city, street;
 
-    public Address(final String country, final String city, final String street, final int userId)
+    public Address(final String country, final String city, final String street, final int userId) throws Exception
     {
         if(userId < 0)
         {

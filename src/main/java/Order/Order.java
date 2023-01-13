@@ -1,7 +1,9 @@
+package Order;
+
 import java.util.ArrayList;
 import Package.Package;
 
-/*Order
+/*Order.Order
 id -  цяло число, уникално за всяка инстанцияа, Не може да се променя(константа)
 packages - колекция с пакети за доставка (един или повече)
 addressId - връзка към адреса където ще бъде доставена поръчката
@@ -13,7 +15,6 @@ public class Order {
     final private int addressId;
     final private int Id;
 
-    enum Status{CREATED, DELIVERING, DELIVERED}
     Status status;
 
     public Order(int addressId, int id, Package packet) throws RuntimeException
@@ -94,8 +95,8 @@ public class Order {
         return (int)price;
     }
 
-    int getId() { return this.Id; }
-    int getAddressId() { return this.addressId; }
-    Status getStatus() { return this.status; }
-    void setStatus(Status status) { this.status = status; }
+    public int getId() { return this.Id; }
+    public int getAddressId() { return this.addressId; }
+    public Status getStatus() { return this.status; }
+    public void setStatus(Status status) { this.status = status; }
 }
